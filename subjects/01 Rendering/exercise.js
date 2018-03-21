@@ -29,8 +29,33 @@ const DATA = {
   ]
 };
 
+// this.SetState((state) => {
+//   type: "mexican";
+// })
+
+let type = "mexican";
+
 function Menu() {
-  return <div>Open the console, you have failing tests.</div>;
+ 
+  const items = DATA.items.filter((item) => item.type == type);
+  items.sort(sortBy('name'));
+
+
+  return (
+    <div>
+      <h1>{DATA.title}</h1>
+      <label>Type</label>
+      <select>
+        <option value="mexican">Mexican</option>
+        <option value="english">English</option>
+      </select>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 ReactDOM.render(<Menu />, document.getElementById("app"), () => {
