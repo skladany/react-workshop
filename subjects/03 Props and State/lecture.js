@@ -4,26 +4,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 class ContentToggle extends React.Component {
-  state = { isOpen: false };
-
   handleClick = () => {
-    this.setState({ isOpen: !this.state.isOpen }, () => {
-      if (this.props.onToggle) {
-        this.props.onToggle(this.state.isOpen);
-      }
-    });
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpen != this.state.isOpen) {
-      this.setState({ isOpen: nextProps.isOpen });
+    if (this.props.onToggle) {
+      this.props.onToggle(!this.props.isOpen);
     }
-  }
+  };
 
   render() {
     let summaryClassName = "content-toggle-summary";
 
-    if (this.state.isOpen) {
+    if (this.props.isOpen) {
       summaryClassName += " content-toggle-summary-open";
     }
 
@@ -33,9 +23,24 @@ class ContentToggle extends React.Component {
           {this.props.summary}
         </button>
         <div className="content-toggle-details">
-          {this.state.isOpen && this.props.children}
+          {this.props.isOpen && this.props.children}
         </div>
       </div>
+    );
+  }
+}
+
+
+class StatefulContentToggle extends React.Component {
+  state = { isOpen: false };
+
+  render() {
+    return (
+      <ContentToggle
+        {...this.props}
+        isOpen={this.state.isOpen}
+        onToggle={isOpen => this.setState({ isOpen })}
+      />
     );
   }
 }
@@ -91,7 +96,7 @@ class App extends React.Component {
               style={{ width: 300 }}
               summary={taco.name}
               isOpen={taco.open}
-              onToggle={() => this.handleTacoToggle(taco, isOpen)}
+              onToggle={isOpen => this.handleTacoToggle(taco, isOpen)}
             >
               <div
                 style={{
