@@ -13,13 +13,28 @@ import * as styles from "./styles";
 // We could recursively check children with each render, which seems like a bad
 // plan, so instead we can use a feature called "context".
 
+/*
+parent 
+  - static childContextTypes
+  - getChildContext
+child
+  - static contextTypes
+  - this.context
+*/
+/*
+
 class TabList extends React.Component {
+  static contextTypes = {
+    activeIndex: PropTypes.number.isRequired
+    onActivate: PropTypes.func.isRequired
+  };
+
   render() {
     const children = React.Children.map(
       this.props.children,
       (child, index) => {
         return React.cloneElement(child, {
-          isActive: index === this.props.activeIndex,
+          isActive: index === this.context.activeIndex,
           onClick: () => this.props.onActivate(index)
         });
       }
@@ -47,6 +62,10 @@ class Tab extends React.Component {
 }
 
 class TabPanels extends React.Component {
+  static contextTypes = {
+    activeIndex: PropTypes.number.isRequired
+  };
+
   render() {
     return (
       <div style={styles.tabPanels}>
@@ -67,6 +86,20 @@ class Tabs extends React.Component {
     activeIndex: 0
   };
 
+  static childContextTypes = {
+    activeIndex: PropTypes.number.isRequired
+    onActivate: PropTypes.func.isRequired
+  }
+
+  getChildContext() {
+    return { 
+      activeIndex: this.state.activeIndex,
+      onActivate: index => this.setState({ activeIndex: index }) 
+    };
+  }
+
+
+
   render() {
     const children = React.Children.map(
       this.props.children,
@@ -75,11 +108,11 @@ class Tabs extends React.Component {
           return React.cloneElement(child, {
             activeIndex: this.state.activeIndex
           });
-        } else if (child.type === TabList) {
-          return React.cloneElement(child, {
-            activeIndex: this.state.activeIndex,
-            onActivate: index => this.setState({ activeIndex: index })
-          });
+        // } else if (child.type === TabList) {
+        //   return React.cloneElement(child, {
+        //     activeIndex: this.state.activeIndex,
+        //     onActivate: index => this.setState({ activeIndex: index })
+        //   });
         } else {
           return child;
         }
@@ -95,11 +128,14 @@ class App extends React.Component {
     return (
       <div>
         <Tabs>
+          <div className="hot">
           <TabList>
             <Tab>Tacos</Tab>
             <Tab disabled>Burritos</Tab>
             <Tab>Coconut Korma</Tab>
           </TabList>
+          </div>
+          <div className="hot">
           <TabPanels>
             <TabPanel>
               <p>Tacos are delicious</p>
@@ -111,13 +147,15 @@ class App extends React.Component {
               <p>Might be your best option</p>
             </TabPanel>
           </TabPanels>
+          </div>
         </Tabs>
       </div>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app")); 
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // Wrapping <TabPanels> in a div breaks everything! Instead of using
