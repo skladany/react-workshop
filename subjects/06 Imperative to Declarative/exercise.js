@@ -24,9 +24,9 @@ class Modal extends React.Component {
     else $(this.node).modal("hide");
   }
 
-  // componentDidMount() {
-  //   this.toggleModal();
-  // }
+  componentDidMount() {
+    this.toggleModal();
+  }
 
   componentDidUpdate() {
     this.toggleModal();
