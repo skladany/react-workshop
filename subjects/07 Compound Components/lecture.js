@@ -15,11 +15,16 @@ class Tabs extends React.Component {
   renderTabs() {
     return this.props.data.map((tab, index) => {
       const isActive = this.state.activeIndex === index;
+      const isDisabled = this.props.disabled.includes(index);
       return (
         <div
           key={tab.label}
-          style={isActive ? styles.activeTab : styles.tab}
-          onClick={() => this.selectTabIndex(index)}
+          style={
+            isDisabled 
+              ? styles.disabledTab 
+              : isActive ? styles.activeTab : styles.tab
+          }
+          onClick={isDisabled ? null : () => this.selectTabIndex(index)}
         >
           {tab.label}
         </div>
@@ -33,10 +38,11 @@ class Tabs extends React.Component {
   }
 
   render() {
+    const tablList =  <div style={styles.tabList}>{this.renderTabs()}</div>
+    const tabPanels = <div style={styles.tabPanels}>{this.renderPanel()}</div>
     return (
       <div>
-        <div style={styles.tabList}>{this.renderTabs()}</div>
-        <div style={styles.tabPanels}>{this.renderPanel()}</div>
+        {this.props.tabsOnBottom ? [tabPanels, tablList] : [tablList, tabPanels]}
       </div>
     );
   }
@@ -61,7 +67,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Tabs data={tabData} />
+        <Tabs data={tabData} tabsOnBottom={true} disabled={[1]} />
       </div>
     );
   }
