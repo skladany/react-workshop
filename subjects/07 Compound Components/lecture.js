@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import * as styles from "./styles";
@@ -48,8 +48,68 @@ class Tabs extends React.Component {
   }
 }
 
+class NewTabs extends React.Component {
+  state = { activeIndex: 0 }
+
+  render() {
+    const children = React.Children.map(this.props.children, child => {
+      if (child.type === TabList) {
+        return React.cloneElement(child, {
+          _activeIndex: this.state.activeIndex
+        });
+      } else if (child.type{
+        return child;
+      }
+    });
+
+    return <div>{this.props.children}</div>
+  }
+}
+
+function TabList({ children, _activeIndex }) {
+  return <div style={styles.tabList}>
+        {React.Children.map(children (child, index) => 
+          React.cloneElement(child, { _isActive: _activeIndex === index})
+        )}
+        </div>
+}
+
+function Tab({ children, _isActive }) {
+  return <div style={_isActive ? styles.activeTab : styles.tab}>{children}</div>
+}
+
+function TabPanels({ children }) {
+  return <div style={styles.tabPanels}>{children}</div>
+}
+
+function TabPanel({ children }) {
+  return <div style={styles.tabPanel}>{children}</div>
+}
+
 class App extends React.Component {
   render() {
+    return (
+      <NewTabs>
+        <TabList>
+            <Tab>Tacos</Tab>
+            <Tab disabled>Burritos</Tab>
+            <Tab>Coconut Korma</Tab>
+        </TabList>
+        <TabPanels>
+            <TabPanel>
+              <p>Tacos are delicious</p>
+            </TabPanel>
+            <TabPanel>
+              <p>Sometimes a burrito is what you really need</p>
+            </TabPanel>
+            <TabPanel>
+              <p>Might be your best option</p>
+            </TabPanel>
+        </TabPanels>
+      </NewTabs>
+    );
+
+
     const tabData = [
       {
         label: "Tacos",
@@ -74,6 +134,7 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById("app"));
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // What if I wanted tabs on the bottom?

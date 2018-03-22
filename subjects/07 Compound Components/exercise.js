@@ -23,6 +23,7 @@
 //   - Arrow right, arrow down should select the next option
 //   - Arrow left, arrow up should select the previous option
 ////////////////////////////////////////////////////////////////////////////////
+/*
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
@@ -30,22 +31,49 @@ import PropTypes from "prop-types";
 class RadioGroup extends React.Component {
   static propTypes = {
     defaultValue: PropTypes.string
+    onChange: PropTypes.func
   };
 
+  state = {
+    value: this.props.defaultValue
+  }
+
+  _setActiveState(index) {
+    this.setState({
+       value
+    }, () -> {
+      if (this.props.onChange) {
+        this.props.onChange(this.state.value)
+      }
+    })
+  }
+
   render() {
-    return <div>{this.props.children}</div>;
+    const children = React.Children.map(this.props.children, (child, index) => {
+      return React.cloneElement(child, {
+          _isSelected: this.state.value === child.props.value,
+          _onSelect: () => this.setState({ value: child.props.value })
+        });
+    })
+
+    return <div>{children}</div>;
   }
 }
 
 class RadioOption extends React.Component {
   static propTypes = {
+    _isSelected: PropTypes.bool.isRequired,
     value: PropTypes.string
   };
 
   render() {
+     console.log(this.props._activeIndex);
+
     return (
-      <div>
-        <RadioIcon isSelected={false} /> {this.props.children}
+      <div onClick={this.props._onSelect}>
+        <RadioIcon 
+          isSelected={this.props._isSelected} />{" "}
+          {this.props.children}
       </div>
     );
   }
@@ -75,12 +103,17 @@ class RadioIcon extends React.Component {
 }
 
 class App extends React.Component {
+  state = { radioVlue: "fm" };
+
+
   render() {
     return (
       <div>
-        <h1>♬ It's about time that we all turned off the radio ♫</h1>
+        <h1>♬ It's about time that we all turned off the{" "}{this.state.radioValue} ♫</h1>
 
-        <RadioGroup defaultValue="fm">
+        <RadioGroup 
+          defaultValue={this.state.radioValue"
+          onChange={value: >
           <RadioOption value="am">AM</RadioOption>
           <RadioOption value="fm">FM</RadioOption>
           <RadioOption value="tape">Tape</RadioOption>
@@ -91,4 +124,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app"));*/
