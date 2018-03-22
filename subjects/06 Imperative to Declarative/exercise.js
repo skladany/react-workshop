@@ -18,10 +18,15 @@ class Modal extends React.Component {
   };
 
   toggleModal() {
-    if (this.props.isOpen) {
-       $(this.node).modal("show");
-    }
-    else $(this.node).modal("hide");
+    $(this.node).modal(this.props.isOpen ? "show" : "hide");
+  }
+
+  syncTheStateBackToTheParentWhenTheOverlayIsClicked() {
+      $(this.node).on('hidden.bs.modal', ()=> {
+        if (this.props.onClose) {
+          this.props.onClose()
+        }
+    })  
   }
 
   componentDidMount() {
@@ -74,7 +79,7 @@ class App extends React.Component {
         <Modal
           title="Declarative is better"
           isOpen={this.state.isOpen}
-          ref={modal => (this.modal = modal)}
+          onClose={this.closeModal}
         >
           <p>Calling methods on instances is a FLOW not a STOCK!</p>
           <p>
