@@ -3,12 +3,45 @@ import ReactDOM from "react-dom";
 import serializeForm from "form-serialize";
 
 class Forms extends React.Component {
+
+  /* State is only req thanks to the '"button" set first name' that was added, 
+  otherwise no reason to have state at all. */
+  state = {
+    firstName: 'Steve',
+    lastName: 'Skladany'
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const values = serializeForm(event.target, { hash: true });
+    console.log(values);
+  };
+
   render() {
     return (
       <div>
         <h1>Forms</h1>
-        <form>
-          <input type="text" />
+        <p>
+          <button onClick={() => this.setState({firstName: "Olive"})}>
+          Set the first name to Olive
+          </button>
+        </p>
+        <p>This name is "{this.state.firstName} {this.state.lastName}"</p>
+        <form 
+          onSubmit={this.handleSubmit}
+        >
+          <input 
+            type="text" 
+            name="firstName" 
+            value={this.state.firstName}
+            onChange={event => this.setState({firstName: event.target.value})} 
+          />
+          <input 
+            type="text" 
+            name="lasttName" 
+            value={this.state.lastName}
+            onChange={event => this.setState({lastName: event.target.value})}/>
+          <button>Submit</button>
         </form>
       </div>
     );

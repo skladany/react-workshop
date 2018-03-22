@@ -11,6 +11,33 @@ import StatefulContentToggle from "./components/StatefulContentToggle";
 import Tabs from "./components/Tabs";
 import Droppable from "./components/Droppable";
 
+
+describe("ContentToggle", () => {
+  let node;
+  beforeEach(() => {
+    node = document.createElement("div");
+  });
+
+  describe('by default', () => {
+  	it('is closed', () => {
+  		ReactDOM.render(
+  			<ContentToggle summary="the summary">
+  				<p>the content</p>
+  			</ContentToggle>,
+  			node,
+  			() => {
+  				expect(node.innerHTML).toNotMatch(/the content/);
+  				done();
+  			}
+  		);
+  	});
+  });
+ });
+
+
+
+
+
 // describe("ContentToggle", () => {
 //   let div;
 //   beforeEach(() => {
